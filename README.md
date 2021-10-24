@@ -1,3 +1,11 @@
 # CourseProject
 
-Please fork this repository and paste the github link of your fork on Microsoft CMT. Detailed instructions are on Coursera under Week 1: Course Project Overview/Week 9 Activities.
+Team Name = Team SDK
+
+Members:
+1. shyamsri (shyams4@illinois.edu)
+2. kkaungyang (kaungky2@illinois.edu)
+3. sdgs72 (hianant2@illinois.edu)
+
+
+
