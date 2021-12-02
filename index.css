@@ -1,0 +1,33 @@
+html,
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  margin: 0;
+  min-height: 50vh;
+  padding: 0;
+  width: 600px;
+}
+
+p {
+  margin-bottom: 0px;
+  margin-bottom: 1px;
+}
+
+.col {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  padding: 0px;
+}
+
+.card-body {
+  /* height: 250px;
+  overflow-y: scroll; */
+}
+
+#myTab {
+  background-color: #f1f1f1;
+}

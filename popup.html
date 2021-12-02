@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CS410: WikiMiner</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <link rel="icon" type="image/png" href="images/get_started128.png">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  </link>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  </link>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script src="popup.js"></script>
+</head>
+
+<body>
+  <div class="p-2">
+    <div>
+      <div class="">
+        <h2>CS410: WikiMiner</h2>
+      </div>
+      <div class="border border-default rounded p-2">
+        <nav>
+          <div class="nav nav-tabs" id="myTab" role="tablist">
+            <a class="nav-item nav-link active" id="control-tab" data-toggle="tab" href="#control-content" role="tab"
+              aria-controls="control-content" aria-selected="true">Analysis</a>
+            <a class="nav-item nav-link" id="info-tab" data-toggle="tab" href="#info-content" role="tab"
+              aria-controls="info-content" aria-selected="false">Info</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="py-3 tab-pane fade show active" id="control-content" role="tabpanel"
+            aria-labelledby="control-tab">
+
+            <div class="input-group mb-3">
+              <input id="queryInput" type="text" class="form-control" placeholder="Enter a question here" aria-label="Enter a question here" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Search</button>
+              </div>
+            </div>
+            <p class="pt-1 pb-3" id="queryDisplay"><code>Question</code> : <span></span></p>
+           <ul>
+             <li>Here will be a list of important stats</li>
+             <li>Here will be a list of important stats</li>
+             <li>Here will be a list of important stats</li>
+             <li>Here will be a list of important stats</li>
+             <li>Here will be a list of important stats</li>
+             <li>Here will be a list of important stats</li>
+             <li>Here will be a list of important stats</li>
+             <li>Here will be a list of important stats</li>
+           </ul>
+
+
+
+
+           <!-- This section is for inner tabs -->
+           <div class="border border-default rounded m-2 p-2">
+            <nav>
+              <div class="nav nav-tabs" style="background-color: #f1f1f1" id="inner-tabs" role="tablist">
+                <a class="nav-item nav-link active" id="inner-summary-tab" data-toggle="tab" href="#inner-summary-content" role="tab"
+                  aria-controls="inner-summary-content" aria-selected="true">Summary</a>
+                <a class="nav-item nav-link" id="inner-more-tab" data-toggle="tab" href="#inner-more-content" role="tab"
+                  aria-controls="inner-more-content" aria-selected="false">More</a>
+                  <!-- Edit here to add more inner tabs -->
+              </div>
+            </nav>
+  
+  
+  
+            <div class="tab-content">
+              <div class="p-2 tab-pane active" id="inner-summary-content" role="tabpanel" aria-labelledby="inner-summary-tab">
+                <h5>Summary</h5>
+                <ul>
+                  <li>This is the summary</li>
+                  <li>This is the summary</li>
+                  <li>This is the summary</li>
+                  <li>This is the summary</li>
+                </ul>
+              </div>
+    
+    
+    
+              <div class="p-2 tab-pane fade" id="inner-more-content" role="tabpanel" aria-labelledby="inner-more-tab">
+                <h5>More</h5>
+                <ul>
+                  <li>There's more stuff here</li>
+                  <li>There's more stuff here</li>
+                  <li>There's more stuff here</li>
+                  <li>There's more stuff here</li>
+                  <li>There's more stuff here</li>
+                </ul>
+              </div>
+            </div>
+
+
+
+           </div>
+          </div>
+          <div class="p-2 tab-pane fade" id="info-content" role="tabpanel" aria-labelledby="info-tab">
+            <h5>Authors</h5>
+            <ul>
+              <li>kaungky2@illinois.edu</li>
+              <li>shyams4@illinois.edu</li>
+              <li>hianant2@illinois.edu</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+
+  </div>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
