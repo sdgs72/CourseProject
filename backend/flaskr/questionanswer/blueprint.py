@@ -5,9 +5,12 @@ from .qamodel import getAnswer
 
 bp = Blueprint('questionanswer', __name__)
 
-@bp.route('/qa')
+@bp.route('/api/qa')
 def qa():
-    wiki_title = request.args.get('wiki_title')
+    wiki_url = request.args.get('wiki_url')
+    print(f"wiki url is {wiki_url}")
+    wiki_title = wiki_url.split("/")[-1]
+    print(f"wiki_title is {wiki_title}")
     question = request.args.get('q')
     print(question)
     data = {}
