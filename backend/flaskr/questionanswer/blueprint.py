@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, abort, jsonify
-from .qamodel import getAnswer
+from .qamodel import getAnswer, getSummary
 
 # https://flask.palletsprojects.com/en/2.0.x/blueprints/
 
@@ -17,3 +17,16 @@ def qa():
     data["result"] = getAnswer(wiki_title, question)
     response = jsonify(data)
     return response
+
+
+@bp.route('/api/summary')
+def summary():
+    wiki_url = request.args.get('wiki_url')
+    print(f"wiki url is {wiki_url}")
+    wiki_title = wiki_url.split("/")[-1]
+    print(f"wiki_title is {wiki_title}")
+    data = {}
+    data["result"] = getSummary(wiki_title)
+    response = jsonify(data)
+    return response
+
