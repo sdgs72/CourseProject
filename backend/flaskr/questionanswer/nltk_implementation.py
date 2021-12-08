@@ -13,7 +13,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 #nltk.download('punkt') # install tokenizers/punkt/english.pickle
-nltk.download('popular', quiet=True) #downloads packages
+#nltk.download('popular', quiet=True) #downloads packages
 
 lemmer = nltk.stem.WordNetLemmatizer()
 remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
