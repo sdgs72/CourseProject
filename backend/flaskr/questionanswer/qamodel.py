@@ -1,27 +1,24 @@
 # init stuff
-A = 0
-
 import wikipedia
 import random
-from .bert import QA
+from .nltk_implementation import getAnswerFor
 
-QA_MODEL = QA('bert-large-uncased-whole-word-masking-finetuned-squad')
-
-
-def getPredictionAnswerForText(raw_string_page_contents, question):
-    global QA_MODEL
-    doc = getAnswer(raw_string_page_contents)
-    answer = QA_MODEL.predict(doc, question)
-    return answer
+def cleanText(raw_string_page_contents):
+    return raw_string_page_contents.strip('\'').strip('==')
 
 def getAnswer(wikiTitle, question):
     page = wikipedia.WikipediaPage(wikiTitle)
     raw_string_page_contents = page.content # TODO Cleaning
+    raw_string_page_contents = cleanText(raw_string_page_contents)
     print(raw_string_page_contents)
-    answer = getPredictionAnswerForText(raw_string_page_contents, question)
-    results = {"text": answer['answer'], "score": random.random()}
+    answer = getAnswerFor(raw_string_page_contents, question)
+    print("------------------SECTIONS-----------------")
+    print(page.sections)
+    results = {"text": answer, "score": 1.0}
     return results
 
 def getSummary(wikiTitle):
     page = wikipedia.WikipediaPage(wikiTitle)
     return "I am summary"
+
+

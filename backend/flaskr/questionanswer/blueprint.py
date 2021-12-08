@@ -5,6 +5,7 @@ from .qamodel import getAnswer, getSummary
 
 bp = Blueprint('questionanswer', __name__)
 
+# Example = http://127.0.0.1:5000/api/qa?wiki_url=https://en.wikipedia.org/wiki/United_States&q=hello
 @bp.route('/api/qa')
 def qa():
     wiki_url = request.args.get('wiki_url')
@@ -20,7 +21,6 @@ def qa():
     data["result"] = answers
     response = jsonify(data)
     return response
-
 
 @bp.route('/api/summary')
 def summary():
