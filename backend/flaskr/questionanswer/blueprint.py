@@ -14,6 +14,6 @@ def qa():
     question = request.args.get('q')
     print(question)
     data = {}
-    data["result2"] = getAnswer(wiki_title, question)
+    data["result"] = getAnswer(wiki_title, question)
     response = jsonify(data)
     return response
