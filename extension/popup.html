@@ -28,6 +28,9 @@
               aria-controls="control-content" aria-selected="true">Analysis</a>
             <a class="nav-item nav-link" id="info-tab" data-toggle="tab" href="#info-content" role="tab"
               aria-controls="info-content" aria-selected="false">Info</a>
+
+            <a class="nav-item nav-link" id="raw-tab" data-toggle="tab" href="#raw-content" role="tab"
+              aria-controls="raw-content" aria-selected="false">Raw JSON</a>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -41,15 +44,8 @@
               </div>
             </div>
             <p class="pt-1 pb-3" id="queryDisplay"><code>Question</code> : <span></span></p>
-           <ul>
-             <li>Here will be a list of important stats</li>
-             <li>Here will be a list of important stats</li>
-             <li>Here will be a list of important stats</li>
-             <li>Here will be a list of important stats</li>
-             <li>Here will be a list of important stats</li>
-             <li>Here will be a list of important stats</li>
-             <li>Here will be a list of important stats</li>
-             <li>Here will be a list of important stats</li>
+           <ul id="answer-content">
+             <!-- here goes the answer contents -->
            </ul>
 
 
@@ -71,13 +67,7 @@
   
             <div class="tab-content">
               <div class="p-2 tab-pane active" id="inner-summary-content" role="tabpanel" aria-labelledby="inner-summary-tab">
-                <h5>Summary</h5>
-                <ul>
-                  <li>This is the summary</li>
-                  <li>This is the summary</li>
-                  <li>This is the summary</li>
-                  <li>This is the summary</li>
-                </ul>
+                <p id="inner-summary-message">Nothing to display ...</p>
               </div>
     
     
@@ -105,6 +95,13 @@
               <li>shyams4@illinois.edu</li>
               <li>hianant2@illinois.edu</li>
             </ul>
+          </div>
+
+          <div class="p-2 tab-pane fade" id="raw-content" role="tabpanel" aria-labelledby="raw-tab">
+            <!-- insider here goes RAW JSON information -->
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-danger btn-sm mb-2" id="clear-btn">clear</button>
+            </div>
           </div>
         </div>
       </div>

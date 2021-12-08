@@ -20,22 +20,22 @@ if (currUrl.includes("wikipedia.org/wiki")) {
   var doc = window.document;
   console.log(doc);
 
-  fetch("http://localhost:5000/api/process", {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "https://foo.example",
-      "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-      "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type",
-      "Access-Control-Max-Age": "86400",
-    }),
-    body: JSON.stringify({
-      document: currUrl,
-      question: "who is barack obama",
-    }),
-  })
-    .then((r) => r.text())
-    .then((result) => {
-      console.log("result", result);
-    });
+  // fetch("http://localhost:5000/api/process", {
+  //   method: "POST",
+  //   headers: new Headers({
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "https://foo.example",
+  //     "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+  //     "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type",
+  //     "Access-Control-Max-Age": "86400",
+  //   }),
+  //   body: JSON.stringify({
+  //     document: currUrl,
+  //     question: "who is barack obama",
+  //   }),
+  // })
+  //   .then((r) => r.text())
+  //   .then((result) => {
+  //     console.log("result", result);
+  //   });
 }

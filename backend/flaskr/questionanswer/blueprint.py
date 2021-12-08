@@ -14,7 +14,10 @@ def qa():
     question = request.args.get('q')
     print(question)
     data = {}
-    data["result"] = getAnswer(wiki_title, question)
+    answers = []
+    for i in range(5):
+        answers.append(getAnswer(wiki_title, question))
+    data["result"] = answers
     response = jsonify(data)
     return response
 
