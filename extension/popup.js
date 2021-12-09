@@ -13,21 +13,6 @@ $(document).ready(function () {
     });
     location.reload();
   });
-  var queryInput = $("#queryInput");
-  queryInput.focus();
-  queryInput.on("keypress", (e) => {
-    if (e.which == 13) {
-      console.log(e.target.value);
-      console.log("this is windows", window.location.href);
-      var value = e.target.value.trim();
-
-      chrome.storage.sync.set({
-        q: value,
-      });
-      
-      location.reload();
-    }
-  });
 
   // display raw content
   chrome.storage.sync.get(null, (items) => {
@@ -42,24 +27,51 @@ $(document).ready(function () {
 
     var innerSummaryMsg = $("#inner-summary-message");
     var innerSummaryContent = $("#inner-summary-content");
+    var imageContent = $("#inner-image-content #flex");
+
     if (items.summary && items.summary.result) {
       innerSummaryMsg.addClass("d-none");
       innerSummaryContent.html(items.summary.result);
+
+      if (items.summary.images) {
+        items.summary.images.forEach((e) => {
+          var htmlStr = `<a href="${e}" target="_blank"><img src="${e}"" style="width: 200px" class="img-thumbnail"></img></a>`;
+          imageContent.append(htmlStr);
+        });
+      }
     } else {
       innerSummaryMsg.removeClass("d-none");
       innerSummaryContent.html("Nothing to display ...");
     }
+  });
 
-    var answerContent = $("#answer-content");
-    if (items.answers && items.answers.result) {
-      console.log("items.answers", items.answers);
-      items.answers.result.forEach((a) => {
-        var htmlStr = `<li>${
-          a.text
-        }<code class="ml-2">score: </code>${a.score.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}</li>`;
+  var queryInput = $("#queryInput");
+  var answerContent = $("#answer-content");
+  queryInput.focus();
+  queryInput.on("keypress", (e) => {
+    if (e.which == 13) {
+      console.log(e.target.value);
+      console.log("this is windows", window.location.href);
+      var value = e.target.value.trim();
+
+      chrome.storage.sync.set({
+        q: value,
+      });
+      e.target.value = "";
+      answerContent.html("Loading ...");
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
+
+      answerContent.html("Loading ...");
+    }
+  });
+
+  chrome.storage.sync.get(["answers"], (e) => {
+    if (e.answers && e.answers.result) {
+      console.log("e.answers", e.answers);
+      e.answers.result.forEach((a) => {
+        var htmlStr = `<li>${a.text}</li>`;
         answerContent.append(htmlStr);
       });
     }

@@ -29,7 +29,7 @@ def summary():
     wiki_title = wiki_url.split("/")[-1]
     print(f"wiki_title is {wiki_title}")
     data = {}
-    data["result"] = getSummary(wiki_title)
+    data["result"], data["images"] = getSummary(wiki_title)
     response = jsonify(data)
     return response
 

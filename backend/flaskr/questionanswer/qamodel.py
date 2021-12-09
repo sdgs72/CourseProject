@@ -24,8 +24,10 @@ def getAnswer(wikiTitle, question):
 def getSummary(wikiTitle):
     page = wikipedia.WikipediaPage(wikiTitle)
     raw_summary = page.summary
+    images = page.images[:10] if len(page.images) > 10 else page.images
+    
     cleaned_raw_summary = cleanText(raw_summary)
-    return cleaned_raw_summary
+    return cleaned_raw_summary, images 
 
 
 

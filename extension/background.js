@@ -33,73 +33,102 @@ chrome.runtime.onInstalled.addListener((details, tab) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tab && tab.url && tab.url.includes(WIKI_PAGE_URL_INDICATOR)) {
     console.log("onUpdated", tab, tab.url);
-    chrome.storage.sync.set({
-      wiki_url: tab.url,
-    });
-    fetch(
-      "http://localhost:5000/api/summary?" +
-        new URLSearchParams({
-          wiki_url: tab.url,
-        }),
-      {
-        method: "GET",
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-      }
-    )
-      .then((r) => r.text())
-      .then((result) => {
-        console.log(result);
-        result &&
-          chrome.storage.sync.set({
-            summary: JSON.parse(result),
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // chrome.storage.sync.set({
+    //   wiki_url: tab.url,
+    // });
+    // fetch(
+    //   "http://localhost:5000/api/summary?" +
+    //     new URLSearchParams({
+    //       wiki_url: tab.url,
+    //     }),
+    //   {
+    //     method: "GET",
+    //     headers: new Headers({
+    //       "Content-Type": "application/json",
+    //     }),
+    //   }
+    // )
+    //   .then((r) => r.text())
+    //   .then((result) => {
+    //     console.log(result);
+    //     result &&
+    //       chrome.storage.sync.set({
+    //         summary: JSON.parse(result),
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 });
 
 chrome.storage.sync.onChanged.addListener((changes, areaName) => {
   console.log("changes", changes);
   console.log("areaName", areaName);
-});
-
-chrome.storage.sync.get(["q", "answers", "wiki_url"], (e) => {
-  console.log("q e", e);
-
-  if (e.answers) return;
-  if (e.wiki_url == "" || q == "") return;
-
-  console.log("q e after", e);
-
-  fetch(
-    "http://localhost:5000/api/qa?" +
-      new URLSearchParams({
-        q: e.q,
-        wiki_url: e.wiki_url,
-      }),
-    {
-      method: "GET",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    }
-  )
-    .then((r) => r.text())
-    .then((result) => {
-      console.log(result);
-      result &&
-        chrome.storage.sync.set({
-          answers: JSON.parse(result),
+  if (!changes) return;
+  if (changes.q && changes.q.newValue != changes.q.oldValue) {
+    chrome.storage.sync.get(["q", "answers", "wiki_url"], (e) => {
+      fetch(
+        "http://localhost:5000/api/qa?" +
+          new URLSearchParams({
+            q: changes.q.newValue,
+            wiki_url: e.wiki_url,
+          }),
+        {
+          method: "GET",
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+        }
+      )
+        .then((r) => r.text())
+        .then((result) => {
+          console.log("answers", result);
+          result &&
+            chrome.storage.sync.set({
+              answers: JSON.parse(result),
+            });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-    })
-    .catch((err) => {
-      console.log(err);
     });
+  }
 });
+
+// chrome.storage.sync.get(["q", "answers", "wiki_url"], (e) => {
+//   console.log("q e", e);
+
+//   if (e.answers) return;
+//   if (e.wiki_url == "" || q == "") return;
+
+//   console.log("q e after", e);
+
+// fetch(
+//   "http://localhost:5000/api/qa?" +
+//     new URLSearchParams({
+//       q: e.q,
+//       wiki_url: e.wiki_url,
+//     }),
+//   {
+//     method: "GET",
+//     headers: new Headers({
+//       "Content-Type": "application/json",
+//     }),
+//   }
+// )
+//   .then((r) => r.text())
+//   .then((result) => {
+//     console.log(result);
+//     result &&
+//       chrome.storage.sync.set({
+//         answers: JSON.parse(result),
+//       });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// });
 
 chrome.webRequest.onBeforeRedirect.addListener(
   (details) => {

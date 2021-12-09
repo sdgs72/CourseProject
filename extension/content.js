@@ -16,10 +16,36 @@ function getAllStorageSyncData() {
 let currUrl = window.location.href;
 console.log("currUrl", currUrl);
 if (currUrl.includes("wikipedia.org/wiki")) {
-  console.log("getting hit" + currUrl);
+  console.log("getting hit " + currUrl);
   var doc = window.document;
   console.log(doc);
+  chrome.storage.sync.set({
+    wiki_url: currUrl,
+  });
 
+  fetch(
+    "http://localhost:5000/api/summary?" +
+      new URLSearchParams({
+        wiki_url: currUrl,
+      }),
+    {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+    }
+  )
+    .then((r) => r.text())
+    .then((result) => {
+      console.log("content.js fetch result", result);
+      result &&
+        chrome.storage.sync.set({
+          summary: JSON.parse(result),
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   // fetch("http://localhost:5000/api/process", {
   //   method: "POST",
   //   headers: new Headers({
