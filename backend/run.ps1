@@ -1,3 +1,3 @@
-SET FLASK_APP=flaskr
-SET FLASK_ENV=development
+$env:FLASK_APP="flaskr"
+$env:FLASK_ENV="development"
 flask run
