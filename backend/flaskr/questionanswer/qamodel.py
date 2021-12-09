@@ -15,7 +15,7 @@ def cleanText(raw_string_page_contents):
 
 def getAnswer(wikiTitle, question):
     page = wikipedia.WikipediaPage(wikiTitle)
-    raw_string_page_contents = page.content # TODO Cleaning
+    raw_string_page_contents = page.content 
     raw_string_page_contents = cleanText(raw_string_page_contents)
     answer = getAnswerFor(raw_string_page_contents, question)
     results = {"text": answer, "score": 1.0}
@@ -23,6 +23,9 @@ def getAnswer(wikiTitle, question):
 
 def getSummary(wikiTitle):
     page = wikipedia.WikipediaPage(wikiTitle)
-    return "I am summary"
+    raw_summary = page.summary
+    cleaned_raw_summary = cleanText(raw_summary)
+    return cleaned_raw_summary
+
 
 
