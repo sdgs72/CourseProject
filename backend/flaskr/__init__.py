@@ -17,7 +17,7 @@ def create_app(test_config=None):
     def apply_cors(response):
         response.headers.add('Access-Control-Allow-Origin', '*')
         response.headers.add('Access-Control-Allow-Methods', 'GET,POST')
-        response.headers.add('Content-Type', 'application/json')
+        response.headers.add('Content-Type', 'application/json; charset=utf-8";')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         return response
 
