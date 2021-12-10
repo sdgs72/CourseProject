@@ -95,6 +95,7 @@ $(document).ready(() => {
       console.log(paragraphs);
       paragraphs.forEach((p) => {
         console.log(p);
+
         if (p.innerText.includes(changes.answers.newValue.result[0].text)) {
           p.style.backgroundColor = "pink";
           $([document.documentElement, document.body]).animate(

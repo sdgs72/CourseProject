@@ -20,8 +20,9 @@
 <body>
   <div class="p-2">
     <div>
-      <div class="">
-        <h2>CS410: WikiMiner</h2>
+      <div class="d-flex justify-content-between">
+        <h2>CS410: WikiMiner <i id="refresh" class="ml-2 fas fa-sync"></i></h2>
+        
       </div>
       <div class="border border-default rounded p-2">
         <nav>
@@ -39,15 +40,8 @@
         <div class="tab-content" id="nav-tabContent">
           <div class="py-3 tab-pane fade show active" id="control-content" role="tabpanel"
             aria-labelledby="control-tab">
-
-            <div class="mb-3 d-flex justify-content-end">
-              <i id="refresh" class="fas fa-sync"></i>
-            </div>
             <div class="input-group mb-3">
               <input id="queryInput" type="text" class="form-control" placeholder="Enter a question here" aria-label="Enter a question here" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Search</button>
-              </div>
             </div>
 
           
