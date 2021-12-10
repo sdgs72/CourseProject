@@ -44,48 +44,34 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
           answers: {},
           q: "",
         });
+        fetch(
+          "http://localhost:5000/api/summary?" +
+            new URLSearchParams({
+              wiki_url: tab.url,
+            }),
+          {
+            method: "GET",
+            headers: new Headers({
+              "Content-Type": "application/json",
+            }),
+          }
+        )
+          .then((r) => r.text())
+          .then((result) => {
+            console.log(result);
+            result &&
+              chrome.storage.sync.set({
+                wiki_url: tab.url,
+                summary: JSON.parse(result),
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   }
 });
-
-chrome.webNavigation.onCompleted.addListener(
-  (details) => {
-    if (details && details.url) {
-      var url = details.url;
-
-      chrome.storage.sync.get(["wiki_url"], (e) => {
-        if (e && e.wiki_url && e.wiki_url != url) {
-          fetch(
-            "http://localhost:5000/api/summary?" +
-              new URLSearchParams({
-                wiki_url: tab.url,
-              }),
-            {
-              method: "GET",
-              headers: new Headers({
-                "Content-Type": "application/json",
-              }),
-            }
-          )
-            .then((r) => r.text())
-            .then((result) => {
-              console.log(result);
-              result &&
-                chrome.storage.sync.set({
-                  wiki_url: tab.url,
-                  summary: JSON.parse(result),
-                });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      });
-    }
-  },
-  { urls: ["<all_urls>"] }
-);
 
 chrome.storage.sync.onChanged.addListener((changes, areaName) => {
   console.log("changes", changes);
@@ -115,9 +101,6 @@ chrome.storage.sync.onChanged.addListener((changes, areaName) => {
         })
         .catch((err) => {
           console.log(err);
-          chrome.storage.sync.set({
-            answers: "Errored Out!",
-          });
         });
     });
   }
