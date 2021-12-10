@@ -57,6 +57,7 @@ $(document).ready(function () {
 
   var queryInput = $("#queryInput");
   var answerContent = $("#answer-content");
+  var answerSpinner = $("#answer-spinner");
   queryInput.focus();
   queryInput.on("keypress", (e) => {
     if (e.which == 13) {
@@ -68,12 +69,8 @@ $(document).ready(function () {
         q: value,
       });
       e.target.value = "";
-      answerContent.html(spinnerHtml);
-      setTimeout(() => {
-        location.reload();
-      }, 1500);
-
-      answerContent.html(spinnerHtml);
+      answerContent.html("");
+      answerSpinner.removeClass("d-none");
     }
   });
 
@@ -100,6 +97,19 @@ $(document).ready(function () {
     if (!changes) return;
     if (changes.wiki_url || changes.summary) {
       location.reload();
+    }
+
+    if (changes.answers) {
+      answerSpinner.addClass("d-none");
+      chrome.storage.sync.get(["answers"], (e) => {
+        if (e.answers && e.answers.result) {
+          console.log("e.answers", e.answers);
+          e.answers.result.forEach((a) => {
+            var htmlStr = `<li>${a.text}</li>`;
+            answerContent.html(htmlStr);
+          });
+        }
+      });
     }
   });
 });
