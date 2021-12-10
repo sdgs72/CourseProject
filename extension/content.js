@@ -19,49 +19,98 @@ if (currUrl.includes("wikipedia.org/wiki")) {
   console.log("getting hit " + currUrl);
   var doc = window.document;
   console.log(doc);
-  chrome.storage.sync.set({
-    wiki_url: currUrl,
-  });
+  // chrome.storage.sync.set({
+  //   wiki_url: currUrl,
+  // });
 
-  fetch(
-    "http://localhost:5000/api/summary?" +
-      new URLSearchParams({
-        wiki_url: currUrl,
-      }),
-    {
-      method: "GET",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    }
-  )
-    .then((r) => r.text())
-    .then((result) => {
-      console.log("content.js fetch result", result);
-      result &&
-        chrome.storage.sync.set({
-          summary: JSON.parse(result),
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  // fetch("http://localhost:5000/api/process", {
-  //   method: "POST",
-  //   headers: new Headers({
-  //     "Content-Type": "application/json",
-  //     "Access-Control-Allow-Origin": "https://foo.example",
-  //     "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-  //     "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type",
-  //     "Access-Control-Max-Age": "86400",
-  //   }),
-  //   body: JSON.stringify({
-  //     document: currUrl,
-  //     question: "who is barack obama",
-  //   }),
-  // })
+  // fetch(
+  //   "http://localhost:5000/api/summary?" +
+  //     new URLSearchParams({
+  //       wiki_url: currUrl,
+  //     }),
+  //   {
+  //     method: "GET",
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //     }),
+  //   }
+  // )
   //   .then((r) => r.text())
   //   .then((result) => {
-  //     console.log("result", result);
+  //     console.log("content.js fetch result", result);
+  //     result &&
+  //       chrome.storage.sync.set({
+  //         summary: JSON.parse(result),
+  //       });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
   //   });
 }
+
+$(document).ready(() => {
+  let currUrl = window.location.href;
+  console.log("currUrl", currUrl);
+  if (currUrl.includes("wikipedia.org/wiki")) {
+    console.log("getting hit " + currUrl);
+    var doc = window.document;
+    console.log(doc);
+    chrome.storage.sync.set({
+      wiki_url: currUrl,
+    });
+
+    fetch(
+      "http://localhost:5000/api/summary?" +
+        new URLSearchParams({
+          wiki_url: currUrl,
+        }),
+      {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      }
+    )
+      .then((r) => r.text())
+      .then((result) => {
+        console.log("content.js fetch result", result);
+        result &&
+          chrome.storage.sync.set({
+            summary: JSON.parse(result),
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  chrome.storage.sync.onChanged.addListener((changes, areaName) => {
+    console.log(changes);
+    if (
+      changes.answers &&
+      changes.answers.newValue &&
+      changes.answers.newValue.result &&
+      changes.answers.newValue.result[0].text
+    ) {
+      var paragraphs = document.querySelectorAll("p");
+      console.log(paragraphs);
+      paragraphs.forEach((p) => {
+        console.log(p);
+        if (p.innerText.includes(changes.answers.newValue.result[0].text)) {
+          p.style.backgroundColor = "pink";
+          $([document.documentElement, document.body]).animate(
+            {
+              scrollTop: $(p).offset().top - 200,
+            },
+            1000
+          );
+          // p.scrollIntoView();
+        }
+      });
+    }
+
+    if (changes && changes.refresh) {
+      chrome.storage.sync.set({ refresh: false });
+      window.location.reload();
+    }
+  });
+});

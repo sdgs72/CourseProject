@@ -1,9 +1,19 @@
+var spinnerHtml = `<div class="spinner-grow text-primary" role="status">
+<span class="sr-only">Loading...</span>
+</div>`;
+
 $(document).ready(function () {
+  $("#refresh").on("click", function (e) {
+    chrome.storage.sync.set({ refresh: true });
+    location.reload();
+  });
+
   $("#clear-btn").on("click", function (e) {
     chrome.storage.sync.clear();
     console.log("cleared!");
     chrome.storage.sync.set({
       active: true,
+      refresh: false,
       q: "",
       wiki_url: "",
       answers: {},
@@ -41,7 +51,7 @@ $(document).ready(function () {
       }
     } else {
       innerSummaryMsg.removeClass("d-none");
-      innerSummaryContent.html("Nothing to display ...");
+      innerSummaryContent.html(spinnerHtml);
     }
   });
 
@@ -53,17 +63,17 @@ $(document).ready(function () {
       console.log(e.target.value);
       console.log("this is windows", window.location.href);
       var value = e.target.value.trim();
-
+      $("#queryDisplay span").html(value);
       chrome.storage.sync.set({
         q: value,
       });
       e.target.value = "";
-      answerContent.html("Loading ...");
+      answerContent.html(spinnerHtml);
       setTimeout(() => {
         location.reload();
       }, 1500);
 
-      answerContent.html("Loading ...");
+      answerContent.html(spinnerHtml);
     }
   });
 
@@ -74,6 +84,22 @@ $(document).ready(function () {
         var htmlStr = `<li>${a.text}</li>`;
         answerContent.append(htmlStr);
       });
+    }
+  });
+
+  chrome.storage.sync.get(["summary"], (e) => {
+    if (e.summary && e.summary.result) {
+      queryInput.prop("disabled", false);
+    } else {
+      queryInput.prop("disabled", true);
+    }
+  });
+
+  chrome.storage.sync.onChanged.addListener((changes, areaName) => {
+    console.log("changes popu.js", changes);
+    if (!changes) return;
+    if (changes.wiki_url || changes.summary) {
+      location.reload();
     }
   });
 });

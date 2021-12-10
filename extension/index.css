@@ -1,4 +1,3 @@
-html,
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -30,4 +29,17 @@ p {
 
 #myTab {
   background-color: #f1f1f1;
+}
+
+.fas.fa-sync {
+  font-size: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+.fas.fa-sync:hover {
+  cursor: pointer;
+}
+.fas.fa-sync:active {
+  background-color: #f1f1f1;
+  box-shadow: 0 5px #f1f1f1;
+  transform: rotate(360deg);
 }
