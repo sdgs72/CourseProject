@@ -15,7 +15,9 @@ $(document).ready(function () {
   });
 
   // display raw content
-  chrome.storage.sync.get(null, (items) => {
+  chrome.storage.sync.get("summary", (items) => {
+    console.log("Storage Sync get done...")
+    console.log(items)
     var storageContent = items;
     $("#raw-content").append(
       "<pre>" + JSON.stringify(storageContent, null, 2) + "</pre>"
@@ -47,33 +49,47 @@ $(document).ready(function () {
 
   var queryInput = $("#queryInput");
   var answerContent = $("#answer-content");
+  var queryDisplay = $("#queryDisplayText");
   queryInput.focus();
   queryInput.on("keypress", (e) => {
     if (e.which == 13) {
+      var questionText = queryInput.val()
+      if(questionText == "") {
+        answerContent.html("Please enter a non empty question...")
+        return 
+      }
       console.log(e.target.value);
       console.log("this is windows", window.location.href);
       var value = e.target.value.trim();
-
-      chrome.storage.sync.set({
-        q: value,
-      });
-      e.target.value = "";
-      answerContent.html("Loading ...");
-      setTimeout(() => {
-        location.reload();
-      }, 1500);
-
-      answerContent.html("Loading ...");
+      queryDisplay.html(questionText)
+      answerContent.html("Loading ... ")
+      fetch(
+        "http://localhost:5000/api/qa?" +
+          new URLSearchParams({
+            q: questionText,
+            wiki_url: "https://en.wikipedia.org/wiki/United_States",
+          }),
+        {
+          method: "GET",
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+        }
+      )
+        .then((r) => r.text())
+        .then((response) => {
+          json = JSON.parse(response)
+          console.log(json.result)
+          answerContent.html("")
+          var htmlStr = `<li>${json.result[0].text}</li>`;
+          answerContent.append(htmlStr);          
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+        e.target.value = "";
     }
   });
 
-  chrome.storage.sync.get(["answers"], (e) => {
-    if (e.answers && e.answers.result) {
-      console.log("e.answers", e.answers);
-      e.answers.result.forEach((a) => {
-        var htmlStr = `<li>${a.text}</li>`;
-        answerContent.append(htmlStr);
-      });
-    }
-  });
+
 });
